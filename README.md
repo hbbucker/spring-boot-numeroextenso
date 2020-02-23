@@ -1,7 +1,7 @@
 # Tradutor de Números Inteiros
 
 Consiste em traduzir um número inteiro entre -99999 e 99999 
-para portugues escrito por extenso.
+para 0 português, escrito por extenso.
 
 - Microserviço: spring-boot
 

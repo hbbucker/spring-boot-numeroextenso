@@ -2,9 +2,8 @@ package br.com.bucker.numextenso.service;
 
 import br.com.bucker.numextenso.exceptions.ValorInvalidoException;
 import br.com.bucker.numextenso.model.NumeroTraduzido;
+import br.com.bucker.numextenso.utils.NumeroUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TraduzirNumeroService {
@@ -31,7 +30,7 @@ public class TraduzirNumeroService {
             numero = numero * -1;
         }
 
-        List<Integer> digitos = pegarDigitos(numero);
+        List<Integer> digitos = NumeroUtils.pegarDigitos(numero);
 
         retval = "";
         int count = 0;
@@ -57,11 +56,17 @@ public class TraduzirNumeroService {
 
     }
 
+    /**
+     * Traduz a parte decimal do número, maior que zero e menor que 100
+     * @param digitos
+     * @return
+     * @throws ValorInvalidoException
+     */
     private static String traduzirDezena(List<Integer> digitos) throws ValorInvalidoException {
         int max = 99;
         int min = 0;
 
-        removerZerosAEsquerda(digitos);
+        NumeroUtils.removerZerosAEsquerda(digitos);
 
         String n = "";
         for (Integer digito : digitos)
@@ -85,11 +90,17 @@ public class TraduzirNumeroService {
         return retval;
     }
 
+    /**
+     * Traduz a parte centezimal do número, maior que zero e menor que 1.000
+     * @param digitos
+     * @return
+     * @throws ValorInvalidoException
+     */
     private static String traduzirCentena(List<Integer> digitos) throws ValorInvalidoException {
         int max = 999;
         int min = 0;
 
-        removerZerosAEsquerda(digitos);
+        NumeroUtils.removerZerosAEsquerda(digitos);
 
         String n = "";
         for (Integer digito : digitos)
@@ -115,6 +126,12 @@ public class TraduzirNumeroService {
         return retval;
     }
 
+    /**
+     * Traduz a parte milhar do número, maior que zero e menor que 100.000
+     * @param digitos
+     * @return
+     * @throws ValorInvalidoException
+     */
     public static String traduzirMilhar(List<Integer> digitos) throws ValorInvalidoException {
         int max = 99999;
         int min = 0;
@@ -142,27 +159,4 @@ public class TraduzirNumeroService {
         return retval;
 
     }
-
-    private static List<Integer> pegarDigitos(Integer numero) {
-        List<Integer> digitos = new ArrayList<>();
-        if (numero / 10 > 0) {
-            digitos.addAll(pegarDigitos(numero / 10));
-        }
-        digitos.add(numero % 10);
-        return digitos;
-    }
-
-    private static void removerZerosAEsquerda(List<Integer> digitos) {
-        //remover zeros a esquerda
-        Collections.reverse(digitos);
-        for (int i = digitos.size() - 1; i >= 0; i--) {
-            Integer digito = digitos.get(i);
-            if (digito == 0) {
-                digitos.remove(i);
-            } else
-                break;
-        }
-        Collections.reverse(digitos);
-    }
-
 }
